@@ -1,0 +1,16 @@
+wavetools.WaveAnalyzers
+=======================
+
+.. py:module:: wavetools.WaveAnalyzers
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/wavetools/WaveAnalyzers/WaveAnalyzers/index
+   /autoapi/wavetools/WaveAnalyzers/examples/index
+
+

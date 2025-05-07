@@ -1,0 +1,27 @@
+wavetools.WaveAnalyzers.examples.wa_example
+===========================================
+
+.. py:module:: wavetools.WaveAnalyzers.examples.wa_example
+
+.. autoapi-nested-parse::
+
+   Example of using the WaveAnalyzer class to measure a trace
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.examples.wa_example.wa
+   wavetools.WaveAnalyzers.examples.wa_example.trace
+
+
+Module Contents
+---------------
+
+.. py:data:: wa
+
+.. py:data:: trace
+

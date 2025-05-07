@@ -1,0 +1,446 @@
+wavetools.WaveAnalyzers.WaveAnalyzers
+=====================================
+
+.. py:module:: wavetools.WaveAnalyzers.WaveAnalyzers
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.WaveAnalyzers.WAScanInfo
+   wavetools.WaveAnalyzers.WaveAnalyzers.WAScan
+   wavetools.WaveAnalyzers.WaveAnalyzers.WaveAnalyzer
+   wavetools.WaveAnalyzers.WaveAnalyzers.WaveAnalyzer1500S
+   wavetools.WaveAnalyzers.WaveAnalyzers.WaveAnalyzer200A
+   wavetools.WaveAnalyzers.WaveAnalyzers.WaveAnalyzer400A
+   wavetools.WaveAnalyzers.WaveAnalyzers.WaveAnalyzer1500B
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.WaveAnalyzers.create_waveanalyzer
+
+
+Module Contents
+---------------
+
+.. py:class:: WAScanInfo(/, **data: Any)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   Scan metadata reported by WaveAnalyzer.
+
+
+   .. py:attribute:: scanid
+      :type:  int
+
+
+   .. py:attribute:: center
+      :type:  int
+
+
+   .. py:attribute:: span
+      :type:  int
+
+
+   .. py:attribute:: startfreq
+      :type:  int
+
+
+   .. py:attribute:: stopfreq
+      :type:  int
+
+
+   .. py:attribute:: port
+      :type:  str
+
+
+.. py:class:: WAScan(/, **data: Any)
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+
+   WaveAnalyzer scan data class.
+
+
+   .. py:attribute:: scanid
+      :type:  int
+
+
+   .. py:attribute:: is_valid
+      :type:  bool
+
+
+   .. py:attribute:: power_unit
+      :type:  str
+      :value: 'mW'
+
+
+
+   .. py:attribute:: frequency_unit
+      :type:  str
+      :value: 'MHz'
+
+
+
+   .. py:attribute:: rbw
+      :type:  float
+
+
+   .. py:attribute:: data
+      :type:  numpy.ndarray
+      :value: None
+
+
+
+   .. py:attribute:: metadata
+      :type:  dict
+      :value: None
+
+
+
+   .. py:attribute:: model_config
+
+      Configuration for the model, should be a dictionary conforming to [`ConfigDict`][pydantic.config.ConfigDict].
+
+
+
+   .. py:method:: check_data_structure(v)
+      :classmethod:
+
+
+      Validate the structure of the data field.
+
+      Args:
+          v: The value to validate.
+
+      Returns:
+          The validated value.
+
+      Raises:
+          ValueError: If the value is not a numpy array or has an incorrect dtype.
+
+
+
+   .. py:method:: check_metadata_structure(v)
+      :classmethod:
+
+
+      Validate the structure of the metadata field.
+
+      Args:
+          v: The value to validate.
+
+      Returns:
+          The validated value.
+
+      Raises:
+          ValueError: If the value is not a dictionary.
+
+
+
+   .. py:property:: frequency_THz
+      :type: numpy.ndarray
+
+
+      Convert frequency from MHz to THz.
+
+      Returns:
+          np.ndarray: Frequency in THz.
+
+
+
+   .. py:property:: power_dBm
+      :type: numpy.ndarray
+
+
+      Convert power from mW to dBm.
+
+      Returns:
+          np.ndarray: Power in dBm.
+
+
+
+   .. py:property:: power_mW
+      :type: numpy.ndarray
+
+
+      Return power in mW.
+
+      Returns:
+          np.ndarray: Power in mW.
+
+
+
+   .. py:property:: power_x_pol_dBm
+      :type: numpy.ndarray
+
+
+      Convert power from mW to dBm for X-Polarization.
+
+      Returns:
+          np.ndarray: Power in dBm for X-Polarization.
+
+
+
+   .. py:property:: power_x_pol_mW
+      :type: numpy.ndarray
+
+
+      Return power in mW for X-Polarization.
+
+      Returns:
+          np.ndarray: Power in mW for X-Polarization.
+
+
+
+   .. py:property:: power_y_pol_dBm
+      :type: numpy.ndarray
+
+
+      Convert power from mW to dBm for Y-Polarization.
+
+      Returns:
+          np.ndarray: Power in dBm for Y-Polarization.
+
+
+
+   .. py:property:: power_y_pol_mW
+      :type: numpy.ndarray
+
+
+      Return power in mW for Y-Polarization.
+
+      Returns:
+          np.ndarray: Power in mW for Y-Polarization.
+
+
+
+   .. py:property:: flags
+      :type: numpy.ndarray
+
+
+      Return flags as a numpy array.
+
+      Returns:
+          np.ndarray: Flags.
+
+
+
+.. py:class:: WaveAnalyzer(address: str, preset: bool = True)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   WaveAnalyzer base class. This is an abstract class which should not be instantiated directly. Use create_waveanalyzer() factory function to create device-specific instances.
+   This class defines the common interface for all WaveAnalyzer devices.
+   It provides methods for connecting to the device, configuring scans, and retrieving scan data.
+
+
+
+   .. py:method:: get_model(address: str) -> str
+      :classmethod:
+
+
+      Get the model name of the WaveAnalyzer device at the given address.
+
+      Args:
+          address (str): The network address of the device.
+
+      Returns:
+          str: The model name of the device (e.g., "1500S", "WA400A").
+
+      Raises:
+          httpx.RequestError: If the HTTP request fails.
+          json.JSONDecodeError: If the response is not valid JSON.
+          KeyError: If the 'model' key is missing in the response.
+
+
+
+   .. py:attribute:: base_url
+      :value: 'http://Uninferable/wanl'
+
+
+
+   .. py:attribute:: model
+
+
+   .. py:attribute:: serial_number
+
+
+   .. py:attribute:: version
+
+
+   .. py:attribute:: vendor
+
+
+   .. py:method:: get_scan_modes() -> list[str]
+      :abstractmethod:
+
+
+      Get the list of available scan modes.
+      Returns:
+          list[str]: List of available scan modes. "Normal" is guranteed to be supported by all models
+
+
+
+   .. py:method:: set_scan(center: int = _default_center, span: Union[int, Literal['full']] = 'full', scan_mode: Optional[str] = None) -> bool
+
+      Configure the device to perform a scan.
+
+      Args:
+          center (int): Center frequency in MHz.
+          span (Union[int, "full"]): Span in MHz or "full".
+          scan_mode (str, optional): Optional scan mode identifier (e.g., "Normal"). This method may raise an error (model-specific) if the scan mode is not recognized. The scan modes are model-specific, but "Normal" is guaranteed to work.
+
+      Returns:
+          bool: True if the scan was successfully configured, False otherwise.
+
+
+
+   .. py:property:: scan_info
+      :type: WAScanInfo
+
+
+      Get information about the current scan.
+
+      Returns:
+          WAScanInfo: Information about the current scan.
+
+
+
+   .. py:method:: measure(force_new: bool = False) -> WAScan
+      :abstractmethod:
+
+
+      Fetch measurement data from the device.
+
+      Args:
+          force_new (bool): If True, the returned measurement is guaranteed 
+                            to be captured after this function call. If False,
+                            the device may return a previously captured scan 
+                            if available.
+
+      Returns:
+          WAScan: Measurement data.
+
+
+
+.. py:class:: WaveAnalyzer1500S(address: str, preset: bool = True)
+
+   Bases: :py:obj:`WaveAnalyzer`
+
+
+   WaveAnalyzer1500S device class. This class implements the specific methods for the 1500S model.
+
+
+   .. py:attribute:: scanmodes
+
+
+   .. py:attribute:: rbw
+      :value: 150
+
+
+
+   .. py:method:: get_scan_modes() -> list[str]
+
+      Get the list of available scan modes for the 1500S model.
+
+      Returns:
+          list[str]: List of available scan modes.
+
+
+
+   .. py:method:: measure(force_new: bool = False) -> WAScan
+
+      Fetch measurement data from the device.
+
+      Args:
+          force_new (bool): If True, the returned measurement is guaranteed to be captured after this function call.
+
+      Returns:
+          WAScan: Measurement data.
+
+
+
+.. py:class:: WaveAnalyzer200A(address: str, preset: bool = True)
+
+   Bases: :py:obj:`_WaveAnalyzerNewAPI`
+
+
+   WaveAnalyzer200A device class. This class implements the specific methods for the 200A model.
+   Note that WaveAnalyzer200A has a fixed scan profile and does not support scan mode changes.
+
+
+   .. py:method:: get_scan_modes() -> list[str]
+
+      Get the list of available scan modes.
+      Returns:
+          list[str]: List of available scan modes. "Normal" is guranteed to be supported by all models
+
+
+
+   .. py:method:: set_scan(center: int = 193700000, span: Union[int, Literal['full']] = 'full', scan_mode: Optional[str] = None) -> bool
+
+      WaveAnalyzer200A has a fixed scan profile, therefore, only supports full scans. This method ignores center and scan_mode parameters.
+
+
+
+.. py:class:: WaveAnalyzer400A(address: str, preset: bool = True)
+
+   Bases: :py:obj:`_WaveAnalyzerNewAPI`
+
+
+   WaveAnalyzer400A device class. This class implements the specific methods for the 400A model.
+
+
+   .. py:attribute:: scanmodes
+
+
+   .. py:method:: get_scan_modes() -> list[str]
+
+      Get the list of available scan modes for the 400A model.
+
+      Returns:
+          list[str]: List of available scan modes.
+
+
+
+.. py:class:: WaveAnalyzer1500B(address: str, preset: bool = True)
+
+   Bases: :py:obj:`_WaveAnalyzerNewAPI`
+
+
+   WaveAnalyzer1500B device class. This class implements the specific methods for the 1500B model.
+
+
+   .. py:attribute:: scanmodes
+
+
+   .. py:method:: get_scan_modes() -> list[str]
+
+      Get the list of available scan modes for the 1500B model.
+
+      Returns:
+          list[str]: List of available scan modes.
+
+
+
+.. py:function:: create_waveanalyzer(address: str, preset: bool = True) -> WaveAnalyzer
+
+   Factory method to create model-specific WaveAnalyzer instance.
+
+   Args:
+       address (str): Device network address (e.g., "wa000186.local").
+       preset (bool): If True, the device is set default scan profile.
+
+   Returns:
+       WaveAnalyzerAPI: Instance of the appropriate API class.
+
+

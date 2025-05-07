@@ -1,0 +1,187 @@
+wavetools.WaveAnalyzers.examples.wa_gui
+=======================================
+
+.. py:module:: wavetools.WaveAnalyzers.examples.wa_gui
+
+.. autoapi-nested-parse::
+
+   Wave Analyzer GUI Example
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.examples.wa_gui.parent_dir
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.examples.wa_gui.MainWindow
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   wavetools.WaveAnalyzers.examples.wa_gui.main
+
+
+Module Contents
+---------------
+
+.. py:data:: parent_dir
+   :value: '..'
+
+
+.. py:class:: MainWindow(update_interval=2000, parent=None)
+
+   Bases: :py:obj:`PyQt5.QtWidgets.QWidget`
+
+
+   .. py:attribute:: api
+      :type:  wavetools.WaveAnalyzer | None
+      :value: None
+
+
+
+   .. py:attribute:: update_interval
+      :value: 2000
+
+
+
+   .. py:attribute:: peak_labels
+      :value: []
+
+
+
+   .. py:attribute:: avg_freq_step_mhz
+      :value: None
+
+
+
+   .. py:attribute:: ip_edit
+
+
+   .. py:attribute:: connect_button
+
+
+   .. py:attribute:: device_info_button
+
+
+   .. py:attribute:: scan_group
+
+
+   .. py:attribute:: center_edit
+
+
+   .. py:attribute:: span_edit
+
+
+   .. py:attribute:: full_span_checkbox
+
+
+   .. py:attribute:: scan_mode_combo
+
+
+   .. py:attribute:: mode_checkbox
+
+
+   .. py:attribute:: peak_checkbox
+
+
+   .. py:attribute:: peak_n_edit
+
+
+   .. py:attribute:: peak_dist_edit
+
+
+   .. py:attribute:: pol_x_checkbox
+
+
+   .. py:attribute:: pol_y_checkbox
+
+
+   .. py:attribute:: sg_filter_checkbox
+
+
+   .. py:attribute:: sg_rbw_edit
+
+
+   .. py:attribute:: apply_button
+
+
+   .. py:attribute:: info_button
+
+
+   .. py:attribute:: plotWidget
+
+
+   .. py:attribute:: curve
+
+
+   .. py:attribute:: peak_scatter
+
+
+   .. py:attribute:: pol_curve_x
+
+
+   .. py:attribute:: pol_curve_y
+
+
+   .. py:attribute:: scan_id_field
+
+
+   .. py:attribute:: total_power_field
+
+
+   .. py:attribute:: avg_step_field
+
+
+   .. py:attribute:: metadata_field
+
+
+   .. py:attribute:: timer
+
+
+   .. py:method:: connect_device()
+
+
+   .. py:method:: toggle_span_input(state)
+
+      Enable/disable the span input field based on the 'Full Span' checkbox.
+
+
+
+   .. py:method:: apply_scan_config()
+
+
+   .. py:method:: update_plot_mode()
+
+      Forces plot update when display mode changes.
+
+
+
+   .. py:method:: update_y_axis_label(unit)
+
+      Updates the Y-axis label based on the power unit.
+
+
+
+   .. py:method:: update_plot()
+
+
+   .. py:method:: show_scan_info()
+
+
+   .. py:method:: show_device_info()
+
+
+.. py:function:: main()
+
